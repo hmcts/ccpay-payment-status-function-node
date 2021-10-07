@@ -34,3 +34,7 @@ variable "subscription" {
 variable "common_tags" {
   type = map(string)
 }
+
+variable "team_contact" {
+  default = "#cc-payments-tech "
+}
