@@ -1,3 +1,7 @@
+provider "azurerm" {
+  features {}
+}
+
 locals {
   subscription_name = "defaultServiceCallbackSubscription"
   retry_queue = "serviceCallbackRetryQueue"
