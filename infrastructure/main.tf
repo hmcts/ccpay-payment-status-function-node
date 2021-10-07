@@ -3,6 +3,12 @@ locals {
   retry_queue = "serviceCallbackRetryQueue"
 }
 
+resource "azurerm_resource_group" "rg" {
+  name     = join("-", [var.product, var.env])
+  location = var.location
+  tags = local.tags
+}
+
 module "servicebus-namespace" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace"
   name                = "${var.product}-servicebus-${var.env}"
