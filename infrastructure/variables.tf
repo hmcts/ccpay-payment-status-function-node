@@ -10,7 +10,7 @@ variable "core_product" {
 
 variable "component" {
   type    = string
-  default = "ccpay-cpo-function-node"
+  default = "ccpay-payment-status-function-node"
 }
 
 variable "team_name" {
