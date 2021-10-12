@@ -19,6 +19,9 @@ locals {
  # location = var.location
 #}
 
+data "azurerm_resource_group" "ccpay-rg" {
+  name     = join("-", [var.product, var.env])
+}
 
 module "ccpay-vault" {
   source = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
@@ -27,7 +30,7 @@ module "ccpay-vault" {
   env = var.env
   tenant_id = var.tenant_id
   object_id = var.jenkins_AAD_objectId
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.ccpay-rg.name
   # group id of dcd_reform_dev_azure
   product_group_name = "dcd_group_fees&pay_v2"
   common_tags         = var.common_tags
@@ -36,16 +39,14 @@ module "ccpay-vault" {
    # create_managed_identity = true
 }
 
-data "azurerm_resource_group" "ccpay-rg" {
-  name     = join("-", [var.product, var.env])
-}
+
 
 data "azurerm_key_vault" "ccpay_key_vault" {
   name                = module.ccpay-vault.key_vault_name
   resource_group_name = data.azurerm_resource_group.ccpay-rg.name
 }
 
-module "servicebus-namespace" {
+data "servicebus-namespace" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace"
   name                = "${var.product}-servicebus-${var.env}"
   location            = var.location
@@ -53,6 +54,15 @@ module "servicebus-namespace" {
   common_tags         = local.tags
   resource_group_name = data.azurerm_resource_group.ccpay-rg.name
 }
+
+#module "servicebus-namespace" {
+ # source              = "git@github.com:hmcts/terraform-module-servicebus-namespace"
+ # name                = "${var.product}-servicebus-${var.env}"
+ # location            = var.location
+ # env                 = var.env
+#  common_tags         = local.tags
+ # resource_group_name = data.azurerm_resource_group.ccpay-rg.name
+#}
 
 module "topic_payment_status" {
   source                = "git@github.com:hmcts/terraform-module-servicebus-topic"
