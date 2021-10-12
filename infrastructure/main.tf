@@ -36,13 +36,13 @@ module "ccpay-vault" {
    # create_managed_identity = true
 }
 
-data "azurerm_key_vault" "ccpay_key_vault" {
-  name                = module.ccpay-vault.key_vault_name
-  resource_group_name = azurerm_resource_group.rg.name
-}
-
 data "azurerm_resource_group" "ccpay-rg" {
   name     = join("-", [var.product, var.env])
+}
+
+data "azurerm_key_vault" "ccpay_key_vault" {
+  name                = module.ccpay-vault.key_vault_name
+  resource_group_name = data.azurerm_resource_group.ccpay-rg.name
 }
 
 module "servicebus-namespace" {
