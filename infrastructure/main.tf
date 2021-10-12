@@ -46,7 +46,9 @@ data "azurerm_key_vault" "ccpay_key_vault" {
   resource_group_name = data.azurerm_resource_group.ccpay-rg.name
 }
 
-data "servicebus-namespace" {
+
+
+module "servicebus-namespace" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace"
   name                = "${var.product}-servicebus-${var.env}"
   location            = var.location
@@ -54,15 +56,6 @@ data "servicebus-namespace" {
   common_tags         = local.tags
   resource_group_name = data.azurerm_resource_group.ccpay-rg.name
 }
-
-#module "servicebus-namespace" {
- # source              = "git@github.com:hmcts/terraform-module-servicebus-namespace"
- # name                = "${var.product}-servicebus-${var.env}"
- # location            = var.location
- # env                 = var.env
-#  common_tags         = local.tags
- # resource_group_name = data.azurerm_resource_group.ccpay-rg.name
-#}
 
 module "topic_payment_status" {
   source                = "git@github.com:hmcts/terraform-module-servicebus-topic"
