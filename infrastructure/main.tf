@@ -14,10 +14,10 @@ locals {
   tags = merge(var.common_tags, local.local_tags_ccpay)
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = join("-", [var.product, var.env])
-  location = var.location
-}
+#resource "azurerm_resource_group" "rg" {
+ # name     = join("-", [var.product, var.env])
+ # location = var.location
+#}
 
 
 module "ccpay-vault" {
@@ -42,7 +42,7 @@ data "azurerm_key_vault" "ccpay_key_vault" {
 }
 
 data "azurerm_resource_group" "ccpay-rg" {
-  name = "ccpay-demo"
+  name     = join("-", [var.product, var.env])
 }
 
 module "servicebus-namespace" {
