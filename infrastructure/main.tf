@@ -32,8 +32,8 @@ module "ccpay-vault" {
   product_group_name = "dcd_group_fees&pay_v2"
   common_tags         = var.common_tags
   #aks migration
-  managed_identity_object_ids = ["${var.managed_identity_object_id}"]
-  create_managed_identity = true
+   #managed_identity_object_ids = ["${var.managed_identity_object_id}"]
+   # create_managed_identity = true
 }
 
 data "azurerm_key_vault" "ccpay_key_vault" {
