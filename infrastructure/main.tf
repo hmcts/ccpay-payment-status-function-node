@@ -41,20 +41,24 @@ data "azurerm_key_vault" "ccpay_key_vault" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
+data "azurerm_resource_group" "ccpay-rg" {
+  name = "ccpay-demo"
+}
+
 module "servicebus-namespace" {
   source              = "git@github.com:hmcts/terraform-module-servicebus-namespace"
   name                = "${var.product}-servicebus-${var.env}"
   location            = var.location
   env                 = var.env
   common_tags         = local.tags
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.ccpay-rg.name
 }
 
 module "topic_payment_status" {
   source                = "git@github.com:hmcts/terraform-module-servicebus-topic"
   name                  = "ccpay-payment-status-topic"
   namespace_name        = module.servicebus-namespace.name
-  resource_group_name   = azurerm_resource_group.rg.name
+  resource_group_name   = data.azurerm_resource_group.ccpay-rg.name
 }
 
 module "subscription_payment_status" {
@@ -62,7 +66,7 @@ module "subscription_payment_status" {
   name                  = local.subscription_name
   namespace_name        = module.servicebus-namespace.name
   topic_name            = module.topic_payment_status.name
-  resource_group_name   = azurerm_resource_group.rg.name
+  resource_group_name   = data.azurerm_resource_group.ccpay-rg.name
   max_delivery_count    = "10"
   # forward_dead_lettered_messages_to = module.queue.name
 }
