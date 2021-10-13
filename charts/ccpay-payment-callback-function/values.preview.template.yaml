@@ -17,6 +17,6 @@ servicebus:
   serviceplan: standard
   setup:
     topics:
-      - name: servicecallbacktopic
+      - name: ccpay-payment-status-topic
         subscriptionNeeded: yes
   enabled: true
