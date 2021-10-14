@@ -43,7 +43,7 @@ module "subscription_payment_status" {
   topic_name            = module.topic_payment_status.name
   resource_group_name   = data.azurerm_resource_group.ccpay_rg.name
   max_delivery_count    = "10"
-  # forward_dead_lettered_messages_to = module.queue.name
+  # forward_dead_lettered_messages_to =  module.queue.name 
 }
 
 resource "azurerm_key_vault_secret" "ccpay-payment-status-connection-string" {
