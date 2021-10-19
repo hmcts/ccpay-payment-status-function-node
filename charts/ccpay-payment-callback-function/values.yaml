@@ -3,7 +3,7 @@ function:
   trigger:
     type: azure-servicebus
     servicebus:
-      topicName: "ccpay-payment-status-topic"
+      topicName: "ccpay-payment-status-update-topic"
       subscriptionName: defaultServiceCallbackSubscription
       connection: SERVICE_CALLBACK_BUS_CONNECTION
       queueLength: 1

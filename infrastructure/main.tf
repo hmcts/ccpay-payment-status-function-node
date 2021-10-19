@@ -31,7 +31,7 @@ data "azurerm_servicebus_namespace" "ccpay_servicebus_namespce" {
 
 module "topic_payment_status" {
   source                = "git@github.com:hmcts/terraform-module-servicebus-topic?ref=master"
-  name                  = "ccpay-payment-status-topic"
+  name                  = "ccpay-payment-status-update-topic"
   namespace_name        = data.azurerm_servicebus_namespace.ccpay_servicebus_namespce.name
   resource_group_name   = data.azurerm_resource_group.ccpay_rg.name
 }
@@ -46,8 +46,8 @@ module "subscription_payment_status" {
   # forward_dead_lettered_messages_to =  module.queue.name 
 }
 
-resource "azurerm_key_vault_secret" "ccpay-payment-status-connection-string" {
-  name         = "ccpay-payment-status-connection-string"
+resource "azurerm_key_vault_secret" "ccpay-payment-status-update-connection-string" {
+  name         = "ccpay-payment-status-update-connection-string"
   value        = module.topic_payment_status.primary_send_and_listen_shared_access_key
   key_vault_id = data.azurerm_key_vault.ccpay_key_vault.id
 }

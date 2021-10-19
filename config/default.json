@@ -1,5 +1,5 @@
 {
-  "servicecallbackTopicName": "ccpay-payment-status-topic",
+  "servicecallbackTopicName": "ccpay-payment-status-update-topic",
   "servicecallbackBusConnection": "test",
   "servicecallbackSubscriptionName": "defaultServiceCallbackSubscription",
   "processMessagesCount": 10,
